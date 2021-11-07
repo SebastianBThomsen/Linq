@@ -39,13 +39,13 @@ Example:
 
 How many families live in a house with the address number 1?
 
-'''javascript
+```
 public void HowManyFamiliesLiveInNumberOne()
 {
     var result = ctx.Families.Where(family => family.HouseNumber == 1).ToList();
     Console.WriteLine(result.Count);
 }
-'''
+```
 
 This method will print out the number of families living in number 1, irrespective of the street name.
 
