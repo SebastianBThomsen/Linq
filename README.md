@@ -54,7 +54,7 @@ For all methods/questions, there is a comment above with my answer.
 
 You have access to the PrettyPrint method again, if you wish to print out the result as a table to verify its correctness. See the example methods in Exercise.cs for usage.
 
-All my solutions can be found in the sub-class to Exercises.cs, it’s in the SolutionExample folder:
+All my solutions can be found in the sub-class to Exercises.cs, it’s in the SolutionExample folder.
 
   
 # Note
