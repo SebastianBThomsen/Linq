@@ -3,7 +3,6 @@
 The intention of this project is to provide examples for practicing LINQ queries.
 Included is an sqlite database with a dataset. Below is a class diagram for the models used to create generate the database (with EFC).
 
-Inline-style: 
 ![alt text](https://github.com/TroelsMortensen/LINQTraining/blob/master/LINQTraining/ModelsDiagram.png "Models diagram")
 
 Most of the directories are not relevant, they just contain code to generate the data. But the data is already present in the Family.db file. Your task lies in the Exercises.cs file.
