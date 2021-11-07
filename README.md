@@ -9,7 +9,7 @@ Most of the directories are not relevant, they just contain code to generate the
 
 # Step 1 – Setup
 
-I have created the model classes, a FamilyContext : DbContext, and an SQLite file for you. It’s all in the checked out project.
+I have created the model classes, a FamilyContext : DbContext, and an SQLite file for you. It’s all included in the project.
 
 Open the database in the view to verify there’s data in it.
 
