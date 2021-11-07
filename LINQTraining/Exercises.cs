@@ -52,7 +52,9 @@ namespace LINQTraining
         [Test]
         public virtual void NumberOfAdults()
         {
-            int numOfAdults = ctx.Families.SelectMany(family => family.Adults).Count();
+            List<Adult> adults = ctx.Families.SelectMany(family => family.Adults).ToList();
+            PrettyPrint(adults);
+            int numOfAdults = adults.Count();
             Console.WriteLine(numOfAdults);
         }
 

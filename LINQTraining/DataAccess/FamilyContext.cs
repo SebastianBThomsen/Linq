@@ -1,3 +1,4 @@
+using System;
 using Microsoft.EntityFrameworkCore;
 using Models;
 
@@ -11,7 +12,8 @@ namespace LINQTraining.DataAccess
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite(@"Data Source = C:\TRMO\.NET projects\LINQTraining\LINQTraining\Family.db");
+            throw new Exception("You need to set the absolute path of Family.db in the FamilyContext class, then delete this throw statement");
+            optionsBuilder.UseSqlite(@"Data Source = C:\TRMO\RiderProjects\LINQTraining\LINQTraining\Family.db");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

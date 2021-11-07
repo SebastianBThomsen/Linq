@@ -11,7 +11,6 @@ namespace LINQTraining.PrintUtil
             var properties = typeof(T).GetProperties();
             Dictionary<string, int> columnLengths = InitializeInfo(list, properties);
             var tableHeader = CreateTableHeader<T>(properties, columnLengths);
-            var table = CreateTable(list, tableHeader, properties, columnLengths);
 
 
             string top = "";
@@ -21,6 +20,9 @@ namespace LINQTraining.PrintUtil
                 top += "_";
                 bottom += "-";
             }
+
+            tableHeader += bottom;
+            var table = CreateTable(list, tableHeader, properties, columnLengths);
 
             Console.WriteLine("\n"+top);
             Console.WriteLine(table);
