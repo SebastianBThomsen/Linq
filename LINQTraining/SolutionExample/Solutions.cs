@@ -12,6 +12,7 @@ namespace LINQTraining.SolutionExample
         [Test]
         public override void NumberOfAdults()
         {
+        
         }
 
         [Test]

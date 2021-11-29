@@ -68,6 +68,7 @@ namespace LINQTraining
                 adult.Age <= 53
             ).ToList();
             PrettyPrint(adults);
+            Console.WriteLine(adults.Count());
         }
 
 
@@ -75,6 +76,9 @@ namespace LINQTraining
         [Test]
         public virtual void HowManyFamiliesLiveAt()
         {
+            int amountOfFamilies = ctx.Families.Count(f => f.StreetName.Equals("Abby Park Street"));
+
+            Assert.AreEqual(5, amountOfFamilies);
             // street "Abby Park Street"
         }
 
@@ -83,6 +87,9 @@ namespace LINQTraining
         [Test]
         public virtual void HowManyFamiliesHaveOneParent()
         {
+            int familiesOneParent = ctx.Families.Count(family => family.Adults.Count() == 1);
+
+            Assert.AreEqual(151, familiesOneParent);
             // we are looking for the number families, which have exactly one parent.
 
         }
@@ -92,7 +99,10 @@ namespace LINQTraining
         public virtual void HowManyFamiliesLiveInNumberThreeOrFive()
         {
             // no matter which street, just focus on house number
-       
+            int threeOrFive = ctx.Families.Count(family => family.HouseNumber == 3 || family.HouseNumber == 5);
+            
+            Assert.AreEqual(123, threeOrFive);
+
         }
 
 
@@ -101,7 +111,10 @@ namespace LINQTraining
         public virtual void HowManyFamiliesHaveADog()
         {
             // one or more dogs
+            int familiesWithDog = ctx.Families.Count(family => family.Pets.Any(pet => pet.Species.Contains("Dog")));
             
+            Assert.AreEqual(94, familiesWithDog);
+
         }
 
         // answer: 18
@@ -109,7 +122,9 @@ namespace LINQTraining
         public virtual void HowManyFamiliesHaveCatAndDog()
         {
             // one or more of either. But at least one dog, and at least one cat
-          
+            int familiesWithDogAndCat = ctx.Families.Count(family => family.Pets.Any(pet => pet.Species.Contains("Dog")) && family.Pets.Any(pet => pet.Species.Contains("Cat")));
+
+            Assert.AreEqual(18, familiesWithDogAndCat);
         }
 
 
@@ -117,8 +132,11 @@ namespace LINQTraining
         [Test]
         public virtual void HowManyFamiliesHave3Children()
         {
-            // exactly 3 children
+            int familiesWithThreeChildren = ctx.Families.Count(family => family.Children.Count() == 3);
             
+            Assert.AreEqual(125,familiesWithThreeChildren);
+            // exactly 3 children
+
         }
 
         // answer: 175
@@ -127,7 +145,26 @@ namespace LINQTraining
         {
             // looking for families with two parents of the same sex
             // this one is pretty tough in one query, if you don't all ToList() before the end.
-            
+            int familiesWithGayParents = ctx.Families.Count(family => family.Adults.Count(adult => adult.Sex.Equals("M")) == 2 ||
+                                                                      family.Adults.Count(adult => adult.Sex.Equals("F")) == 2);
+            Assert.AreEqual(175, familiesWithGayParents);
+            /*
+            int familiesWithGayParents = ctx.Families.Count(family => family.Adults.Count() == 2 &&
+                                                                      family.Adults.First(
+                                                                          adult => adult.Sex.Equals("F")).Equals(
+                                                                          family.Adults.Last(adult =>
+                                                                              adult.Sex.Equals("F")))
+                                                                      || family.Adults.First(
+                                                                          adult => adult.Sex.Equals("M")).Equals(
+                                                                          family.Adults.Last(adult =>
+                                                                              adult.Sex.Equals("M"))));
+                                                                      */
+                                                                      /*
+                                                                      family.Adults.Any(adult => !adult.Sex.Equals("F"))
+                                                                      && family.Adults.Any(adult =>
+                                                                          !adult.Sex.Equals("M")));
+                                                                          */                                                                     
+                                                                      
         }
 
 
@@ -135,8 +172,11 @@ namespace LINQTraining
         [Test]
         public virtual void How_Many_Families_Have_An_Adult_With_Red_Hair()
         {
+            int FamilyAdultRedHair =
+                ctx.Families.Count(family => family.Adults.Any(adult => adult.HairColor.Equals("Red")));
+            Assert.AreEqual(21,FamilyAdultRedHair);
             // count the number of families with at least one adult with red hair.
-        
+
         }
 
 
@@ -145,7 +185,9 @@ namespace LINQTraining
         public virtual void How_Many_Families_Have_2_Pets()
         {
             // Exactly 2 pets. Doesn't matter what type of pet. Ignore the children's pets for this one.
+            int FamiliesWithTwoPets = ctx.Families.Count(family => family.Pets.Count() == 2);
             
+            Assert.AreEqual(26,FamiliesWithTwoPets);
         }
 
 
@@ -154,7 +196,11 @@ namespace LINQTraining
         public virtual void How_Many_Families_Have_A_Child_Playing_Soccer()
         {
             // at least one child.
+            int FamiliesWithSoccerChildren =
+                ctx.Families.Count(family => family.Children.Any(child => child.Interests.Any(interest => interest.Type.Equals("Soccer"))));
             
+            Assert.AreEqual(81, FamiliesWithSoccerChildren);
+
         }
 
         // answer: 355
@@ -162,7 +208,10 @@ namespace LINQTraining
         public virtual void How_Many_Families_Have_Adult_And_Child_With_Black_Hair()
         {
             // count number of families where at least one adult and one child have black hair
-          
+            int number = ctx.Families.Count(family => family.Adults.Any(adult => adult.HairColor.Equals("Black")) &&
+                                                      family.Children.Any(child => child.HairColor.Equals("Black")));
+
+            Assert.AreEqual(355, number);
         }
 
 
@@ -171,6 +220,9 @@ namespace LINQTraining
         public virtual void How_Many_Families_Have_A_Child_With_Black_Hair_Playing_Ultimate()
         {
             // count number of families where at least one child has black hair and plays ultimate
+            int number = ctx.Families.Count(family => family.Children.Any(child => child.Interests.Any(
+                interest => interest.Type.Equals("Ultimate") && child.HairColor.Equals("Black"))));
+            Assert.AreEqual(47,number);
         }
 
 
@@ -184,7 +236,9 @@ namespace LINQTraining
         [Test]
         public virtual void HowManyFamiliesHaveAChildWithAHamster()
         {
-
+            int number = ctx.Families.Count(family =>
+                family.Children.Any(child => child.Pets.Any(pet => pet.Species.Equals("Hamster"))));
+            Assert.AreEqual(90, number);
         }
 
         
@@ -192,6 +246,10 @@ namespace LINQTraining
         [Test]
         public virtual void HowManyChildrenAreInterestedInBothSoccerAndBarbies()
         {
+            /*
+            int number = ctx.Families.Any(f => f.Children.Any(c =>
+                c.Interests.Any(i => i.Type.Equals("Barbies")) && c.Interests.Any(i => i.Type.Equals("Soccer"))));
+                */
         }
 
         
@@ -199,6 +257,13 @@ namespace LINQTraining
         [Test]
         public virtual void HowManyChildrenAreOfHeightBetween95And112()
         {
+            int ChildrenHeight = ctx.Families.Sum(family =>
+                family.Children.Count(child => child.Height > 94 && child.Height < 113));
+            /*
+            int ChildrenHeight = ctx.Families.Count(family =>
+                family.Children.Any(child => child.Height > 94 && child.Height < 113));
+                */
+            Assert.AreEqual(157,ChildrenHeight);
         }
     }
 }
